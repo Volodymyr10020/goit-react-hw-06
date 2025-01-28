@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addContact, deleteContact } from "./redux/contactsSlice";
 import { changeFilter } from "./redux/filtersSlice";
@@ -18,13 +19,13 @@ const App = () => {
   const contacts = useSelector((state) => state.contacts.items);
   const filter = useSelector((state) => state.filters.name);
 
-  if (contacts.length === 0 && initialContacts.length > 0) {
-    initialContacts.forEach((contact) => {
-      if (!contacts.some((c) => c.id === contact.id)) {
+  useEffect(() => {
+    if (contacts.length === 0) {
+      initialContacts.forEach((contact) => {
         dispatch(addContact(contact));
-      }
-    });
-  }
+      });
+    }
+  }, [dispatch]);
 
   const handleAddContact = (newContact) => {
     if (contacts.some((contact) => contact.name === newContact.name)) {
