@@ -1,12 +1,10 @@
 import styles from "./Contact.module.css";
 
-const Contact = ({ name, number, onDelete }) => {
+const Contact = ({ name, number }) => {
   return (
     <li className={styles.item}>
       {name}: {number}
-      <button className={styles.deleteButton} onClick={onDelete}>
-        Delete
-      </button>
+      <button className={styles.deleteButton}>Delete</button>
     </li>
   );
 };

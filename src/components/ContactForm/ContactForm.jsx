@@ -1,8 +1,13 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { addContact } from "../../redux/contactsSlice";
 import styles from "./ContactForm.module.css";
 
-const ContactForm = ({ onSubmit }) => {
+const ContactForm = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector((state) => state.contacts.items);
+
   const initialValues = { name: "", number: "" };
 
   const validationSchema = Yup.object({
@@ -17,7 +22,11 @@ const ContactForm = ({ onSubmit }) => {
   });
 
   const handleSubmit = (values, { resetForm }) => {
-    onSubmit(values);
+    if (contacts.some((contact) => contact.name === values.name)) {
+      alert(`${values.name} is already in the phonebook.`);
+      return;
+    }
+    dispatch(addContact(values));
     resetForm();
   };
 
