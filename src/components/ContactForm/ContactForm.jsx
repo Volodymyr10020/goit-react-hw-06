@@ -2,6 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { addContact } from "../../redux/contactsSlice";
+import { nanoid } from "nanoid";
 import styles from "./ContactForm.module.css";
 
 const ContactForm = () => {
@@ -26,7 +27,8 @@ const ContactForm = () => {
       alert(`${values.name} is already in the phonebook.`);
       return;
     }
-    dispatch(addContact(values));
+    const newContact = { id: nanoid(), ...values };
+    dispatch(addContact(newContact));
     resetForm();
   };
 
